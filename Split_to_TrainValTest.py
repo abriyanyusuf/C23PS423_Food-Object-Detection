@@ -4,7 +4,7 @@ import random
 
 
 # Define paths to image folders
-image_path = '/content/images/all'
+image_path = '/content/images/all/ECUSTFD-resized-/ImagesWithXml'
 train_path = '/content/images/train'
 val_path = '/content/images/validation'
 test_path = '/content/images/test'

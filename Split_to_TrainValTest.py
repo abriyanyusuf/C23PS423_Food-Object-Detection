@@ -1,6 +1,7 @@
 import glob
 from pathlib import Path
 import random
+import os
 
 
 # Define paths to image folders

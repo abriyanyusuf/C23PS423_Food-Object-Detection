@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--labels', help='Path to the labelmap file', default='labelmap.txt')
 parser.add_argument('--outdir', help='Output folder to save results in', default='outputs')
 parser.add_argument('--metric', help='mAP metric to calculate: "coco", "pascalvoc", or "custom"', default='coco')
-parser.add_argument('--iou', help='(Only if using --metric=custom) Specify IoU thresholds \
+parser.add_argument('--iou', help='(Only if using --metric=custom) Specify IoU threshholds \
     to use for evaluation (example: 0.5,0.6,0.7)')
 parser.add_argument('--show_images', help='Display and save images as they are evaluated', action='store_true') # Coming soon!
 parser.add_argument('--show_plots', help='Display and save plots showing precision/recall curve, mAP score, etc', action='store_true') # Coming soon!

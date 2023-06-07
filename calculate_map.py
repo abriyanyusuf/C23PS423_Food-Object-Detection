@@ -1,26 +1,35 @@
 import os
 import sys
+import argparse
 import numpy as np
 
-# Define input arguments
-labels = '/content/gdrive/MyDrive/custom_model_lite_quant/custom_model_lite/labelmap.txt'
-outdir = 'outputs'
-metric = 'coco'
-iou = None
-show_images = False
-show_plots = False
+# Define and parse input arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--labels', help='Path to the labelmap file', default='labelmap.txt')
+parser.add_argument('--outdir', help='Output folder to save results in', default='outputs')
+parser.add_argument('--metric', help='mAP metric to calculate: "coco", "pascalvoc", or "custom"', default='coco')
+parser.add_argument('--iou', help='(Only if using --metric=custom) Specify IoU thresholds \
+    to use for evaluation (example: 0.5,0.6,0.7)')
+parser.add_argument('--show_images', help='Display and save images as they are evaluated', action='store_true') # Coming soon!
+parser.add_argument('--show_plots', help='Display and save plots showing precision/recall curve, mAP score, etc', action='store_true') # Coming soon!
+
+args = parser.parse_args()
+
+labelmap_file = args.labels
+output_folder = args.outdir
+metric = args.metric
+show_images = args.show_images
+show_plots = args.show_plots
 
 # Define which metric to use (i.e. which set of IoU thresholds to calculate mAP for)
 if metric == 'coco':
-    iou_threshes = [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
+    iou_thresholds = [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
 elif metric == 'pascalvoc':
-    iou_threshes = [0.5]
+    iou_thresholds = [0.5]
 elif metric == 'custom':
-    if iou is None:
-        print('Invalid entry for --iou. Example of a correct entry: "--iou=0.5,0.6,0.7"')
-        sys.exit()
+    custom_ious = args.iou
     try:
-        iou_threshes = [float(iou_val) for iou_val in iou.split(',')]
+        iou_thresholds = [float(iou) for iou in custom_ious]
     except:
         print('Invalid entry for --iou. Example of a correct entry: "--iou=0.5,0.6,0.7"')
         sys.exit()
@@ -30,12 +39,20 @@ else:
 
 # Get file paths
 cwd = os.getcwd()
-output_path = os.path.join(cwd, outdir)
-labelmap_path = os.path.join(cwd, labels)
+output_path = os.path.join(cwd, output_folder)
+labelmap_path = os.path.join(cwd, labelmap_file)
 
 # Define arguments to show images and plots (if desired by user)
-show_img_arg = '' if show_images else ' -na'  # "-na" argument tells main.py NOT to show images
-show_plot_arg = '' if show_plots else ' -np'  # "-np" argument tells main.py NOT to show plots
+if show_images:
+    show_images_arg = ''
+else:
+    show_images_arg = ' -na'  # "-na" argument tells main.py NOT to show images
+
+if show_plots:
+    show_plots_arg = ''
+else:
+    show_plots_arg = ' -np'  # "-np" argument tells main.py NOT to show plots
+
 
 # Load the label map
 with open(labelmap_path, 'r') as f:
@@ -49,11 +66,11 @@ else:
     os.makedirs(output_path)
 
 # Create dictionary to store overall mAP results and results for each class
-mAP_results = {'overall': np.zeros(len(iou_threshes))}
-for classname in classes:
-    mAP_results[classname] = np.zeros(len(iou_threshes))  # Add each class to dict
+mAP_results = {'overall': np.zeros(len(iou_thresholds))}
+for class_name in classes:
+    mAP_results[class_name] = np.zeros(len(iou_thresholds))  # Add each class to dict
 
-for i, iou_thresh in enumerate(iou_threshes):
+for i, iou_thresh in enumerate(iou_thresholds):
 
     # Modify main.py to use the specified IoU value
     with open('main.py', 'r') as f:
@@ -61,13 +78,14 @@ for i, iou_thresh in enumerate(iou_threshes):
 
         # Set IoU threshold value
         data = data.replace('MINOVERLAP = 0.5', 'MINOVERLAP = %.2f' % iou_thresh)
+        f.close()
 
     with open('main_modified.py', 'w') as f:
         f.write(data)
 
     # Run modified script
     print('Calculating mAP at %.2f IoU threshold...' % iou_thresh)
-    os.system('python main_modified.py' + show_img_arg + show_plot_arg)
+    os.system('python main_modified.py' + show_images_arg + show_plots_arg)
 
     # Extract mAP values by manually parsing the output.txt file
     with open('output/output.txt', 'r') as f:
@@ -86,20 +104,20 @@ for i, iou_thresh in enumerate(iou_threshes):
                     mAP_results[class_name][i] = class_mAP
 
     # Save mAP results for this IoU value as a different folder name, then delete modified script
-    newpath = os.path.join(output_path, 'output_iou_%.2f' % iou_thresh)
-    os.rename('output', newpath)
+    new_path = os.path.join(output_path, 'output_iou_%.2f' % iou_thresh)
+    os.rename('output', new_path)
     os.remove('main_modified.py')
 
 # Okay, we found mAP at each IoU value! Now we just need to average the mAPs and display them.
-class_mAP_result = []
+class_mAP_results = []
 print('\n***mAP Results***\n')
 print('Class\t\tAverage mAP @ 0.5:0.95')
 print('---------------------------------------')
-for classname in classes:
-    class_vals = mAP_results[classname]
+for class_name in classes:
+    class_vals = mAP_results[class_name]
     class_avg = np.mean(class_vals)
-    class_mAP_result.append(class_avg)
-    print('%s\t\t%0.2f%%' % (classname, class_avg))  # TO DO: Find a better variable name than "classname"
+    class_mAP_results.append(class_avg)
+    print('%s\t\t%0.2f%%' % (class_name, class_avg))  # TO DO: Find a better variable name than "class_name"
 
-overall_mAP_result = np.mean(class_mAP_result)
+overall_mAP_result = np.mean(class_mAP_results)
 print('\nOverall\t\t%0.2f%%' % overall_mAP_result)

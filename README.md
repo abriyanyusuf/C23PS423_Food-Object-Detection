@@ -3,7 +3,7 @@
 <h1></h1>
 <p>Hi. This is repository for Capstone Project Bangkit 2023. This reposiotry contain files to build food object detection features.</p>
 
-## Repository Owner
+## Contributor
 |            Name          |  Bangkit ID  |       Path       |
 |:------------------------:|:------------:|:----------------:|
 |  Abriyan Yusuf           |  M169DSX1911 | Machine Learning |

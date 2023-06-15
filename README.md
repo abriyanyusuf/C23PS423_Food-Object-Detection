@@ -1,4 +1,4 @@
-![LOGO IDOEAT](https://drive.google.com/uc?export=view&id=1NpLukLfHSIKOz2mk2QtLYaef0Ka5PaM5)
+![LOGO IDOEAT](https://drive.google.com/uc?export=view&id=1DYFfsy8oyIwLu7Q9Ztt-X11UhZcCg67a)
 <h2>A Food Object Detection Model Build With TensorFlow Object Detection</h2>
 <h1></h1>
 <p>Hi. This is repository for Capstone Project Bangkit 2023. This reposiotry contain files to build food object detection features.</p>
@@ -51,14 +51,25 @@ We already did the training session for 40.000 epochs and it consumed 12 Hours i
 - `Inference_Testing_Model_and_mAP_calculation.ipynb` => This notebook is used to calculate mAP of our model start by importing dataset.
 - `calculate_map.py` => This file is used in our Inference Testing notebook to calculate mAP.
 - `Script_For_Testing_and_Analyze_TFLite_Model.ipynb` => This notebook is used to check input and output of our model to fix issue when we deploy it to Android Apps.
-- `Adding_Metadata_Object_Detection.ipynb` => This notebook is used to add metadata to our model because Android Studio only accept model that has metadata inside.
+- `Adding_Metadata_Object_Detection.ipynb` => This notebook is used to add metadata to our model because Android Studio only accept model that has metadata inside. **Note : You only can run this file using local machine (e.g. Jupyter Notebook) because in Colab it always error**
 - `detect_food.tflite` => This is model that we used and included metadata inside
+- `requirements.txt` => This is file that contain all dependencies that we used to run this project
 
 ## Getting Started With Our Project
 To using our project you must clone this machine learning project at first, this below the link:
 `git clone https://github.com/abriyanyusuf/C23PS423_Food-Object-Detection.git`
 after you clone you can use our machine learning project. Then you can use our main machine learning file
 `TrainObjDetect.ipynb`. Inside the file we already provide instructions from A to Z. 
+
+## Model that has been trained 40.000 epoch
+You can download our model contain `.tflite`, label, and savedmodel from this link below. Upload it to your google drive.
+<br>
+[Model Trained 40.000 Epochs](https://drive.google.com/file/d/1F9Yf3i3FddNVICqc9d9YKqo45J_Og3Gg/view?usp=sharing)
+
+## Data that has been split 
+Here is the dataset that we have processed splitting it into 3 folders (train, val, and test). You can download it and upload to your google drive.
+<br>
+[Splitted Data](https://drive.google.com/file/d/1LxlvVIVaiZIs-EH9QcqZCgKOnbLF4el9/view?usp=sharing)
 
 ## Dataset and Additional Dataset
 Dataset : <br>
@@ -68,3 +79,4 @@ Dataset : <br>
 We Also modified Calories in Food Items (per 100 grams) dataset by adding marketplace link for each item. You can access the data from link below.
 <br>
 Additional dataset Google Drive : [Calories in Food Items per 100 grams Modified Dataset](https://docs.google.com/spreadsheets/d/1NpLukLfHSIKOz2mk2QtLYaef0Ka5PaM5/edit?usp=sharing&ouid=109136081789719236546&rtpof=true&sd=true)
+

@@ -50,7 +50,7 @@ The accuracy of this model depends on the quality of the input image and the sha
 ![inference test](https://drive.google.com/uc?export=view&id=1EJExsiQCU1dcAFpoArKJ3uhM9vjQEQpP)
 
 <br>
-In the documentation of the dataset used, the coin in the dataset is an additional object intended as a reference for calculating the volume of food and in this project we do not use it to do this so this coin object can be ignored when it appears in the detection results.
+In the documentation of the dataset used, the coin in the dataset is an additional object intended as a reference for calculating the volume of food. In this project we do not use it for that purpose. Therefore, this coin object can be ignored when it appears in the detection results.
 
 ## Files Inside This Repository
 - `TrainObjDetect.ipynb` => This notebook is our main file that we use to run this project

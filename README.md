@@ -1,7 +1,7 @@
 ![LOGO IDOEAT](https://drive.google.com/uc?export=view&id=1DYFfsy8oyIwLu7Q9Ztt-X11UhZcCg67a)
 <h2>A Food Object Detection Model Build With TensorFlow Object Detection</h2>
 <h1></h1>
-<p>Hi. This is repository for Capstone Project Bangkit 2023. This reposiotry contain files to build food object detection features.</p>
+<p>Hi. This is repository for Capstone Project Bangkit 2023. This repository contains files to build food object detection features.</p>
 
 ## Contributor
 |            Name          |  Bangkit ID  |       Path       |

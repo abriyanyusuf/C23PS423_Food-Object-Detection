@@ -43,6 +43,15 @@ We already did the training session for 40.000 epochs and it consumed 12 Hours i
 <br>
 ![mAP](https://drive.google.com/uc?export=view&id=16Y7IKysIcEiB-oslmevqzhse6QJD-c96)
 
+## Important Notes
+The accuracy of this model depends on the quality of the input image and the shape of the image itself. As we can see, the images contained in the dataset only contain the food object itself, a white plate, and also coins. This shows that there are not too many objects in the image which makes the features more numerous, allowing for high detection accuracy. The technique in testing the accuracy is to upload the image to the model and not taken directly using a camera device. If the input image is taken directly using a webcam or camera on a smartphone when we deploy the model in the application, the detection results will be different depending on the ability of the camera to provide good image quality. 
+<br>
+
+![inference test](https://drive.google.com/uc?export=view&id=1EJExsiQCU1dcAFpoArKJ3uhM9vjQEQpP)
+
+<br>
+In the documentation of the dataset used, the coin in the dataset is an additional object intended as a reference for calculating the volume of food and in this project we do not use it to do this so this coin object can be ignored when it appears in the detection results.
+
 ## Files Inside This Repository
 - `TrainObjDetect.ipynb` => This notebook is our main file that we use to run this project
 - `Create_CSV_from_VOC.py` => This file is used inside main file to convert out dataset in VOC format to CSV
